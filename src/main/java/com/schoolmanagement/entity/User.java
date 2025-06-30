@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class User extends BaseEntity {
+public class User  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

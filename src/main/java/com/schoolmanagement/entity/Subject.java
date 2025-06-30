@@ -12,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Subject extends BaseEntity {
+public class Subject  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

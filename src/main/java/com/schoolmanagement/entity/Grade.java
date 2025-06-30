@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Grade  extends BaseEntity{
+public class Grade  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

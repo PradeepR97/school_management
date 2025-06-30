@@ -12,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Student extends BaseEntity {
+public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
