@@ -14,4 +14,8 @@ public class StudentDTO {
     @Email(message = "Invalid email format")
     private String email;
     private String grade;
+    private AddressDTO address;
 }
+
+
+

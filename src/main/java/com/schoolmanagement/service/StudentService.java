@@ -1,16 +1,22 @@
 package com.schoolmanagement.service;
 
+import com.schoolmanagement.dto.AddressDTO;
 import com.schoolmanagement.dto.StudentDTO;
 import com.schoolmanagement.entity.Student;
 import com.schoolmanagement.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import com.schoolmanagement.constants.MessageConstants;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * Business logic for managing Students.
@@ -20,7 +26,14 @@ import com.schoolmanagement.constants.MessageConstants;
 @Slf4j
 public class StudentService {
 
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Value("${address.service.url}")
+    private String addressServiceUrl;
+
     private final StudentRepository studentRepository;
+
 
     public StudentDTO createStudent(StudentDTO dto) {
         log.info("Creating student with email: {}", dto.getEmail());
@@ -51,8 +64,18 @@ public class StudentService {
     public Optional<StudentDTO> getStudentById(Long id) {
         log.info("Fetching student by ID: {}", id);
         return studentRepository.findById(id)
-                .map(this::toDto);
+                .map(student -> {
+                    StudentDTO dto = toDto(student);
+                    try {
+                        AddressDTO address = restTemplate.getForObject(addressServiceUrl + id, AddressDTO.class);
+                        dto.setAddress(address);
+                    } catch (Exception e) {
+                        log.warn("Address service not available or address not found for student ID {}", id);
+                    }
+                    return dto;
+                });
     }
+
 
     public Optional<StudentDTO> updateStudent(Long id, StudentDTO dto) {
         log.info("Updating student ID: {}", id);
