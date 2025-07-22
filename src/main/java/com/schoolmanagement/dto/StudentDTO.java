@@ -1,5 +1,5 @@
 package com.schoolmanagement.dto;
-
+import jakarta.validation.constraints.*; // For annotations
 import lombok.Data;
 
 /**
@@ -7,9 +7,11 @@ import lombok.Data;
  */
 @Data
 public class StudentDTO {
-    private Long id;           // include ID for GET/PUT responses
+    private Long id;
+    @NotBlank(message = "First name is required")// include ID for GET/PUT responses
     private String firstName;
     private String lastName;
+    @Email(message = "Invalid email format")
     private String email;
     private String grade;
 }
